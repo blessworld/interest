@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-import urllib2, urllib, cookielib
+import urllib2
+import urllib
+import cookielib
 import json
 
 '''
@@ -15,7 +17,8 @@ HEADERS = {
     'Accept': 'application/json, text/javascript, */*; q=0.01'
 }
 
-BASE_URL = 'http://www.simsimi.com/func/req?lc=zh&'
+BASE_URL = 'http://www.simsimi.com/func/req?%s&lc=zh'
+
 
 def get_jsessionid(url):
     '''得到cookie'''
@@ -27,12 +30,14 @@ def get_jsessionid(url):
             HEADERS['Cookie'] = cookie
             return item.value
 
+
 def add_cookie_in_headers(jsessionid):
-    cookie = 'sagree=true;JSESSIONID=%s'%jsessionid
+    cookie = 'sagree=true;JSESSIONID=%s' % jsessionid
     HEADERS['Cookie'] = cookie
 
+
 def reply(msg):
-    reply_url = BASE_URL + msg
+    reply_url = BASE_URL % msg
     reply_request = urllib2.Request(reply_url, headers=HEADERS)
     reply_json = urllib2.urlopen(reply_request).read()
     reply = json.loads(reply_json)
