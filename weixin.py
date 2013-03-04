@@ -60,11 +60,12 @@ class weixin:
                 <Content><![CDATA[%s]]></Content>
                 <FuncFlag>0</FuncFlag>
                 </xml>"""
-            echostr = textTpl % (recv['FromUserName'], recv['ToUserName'], recv['CreateTime'],
-                                 recv['MsgType'], recv['Content'])
+            echostr = textTpl % (recv['FromUserName'], recv['ToUserName'],
+                                 recv['CreateTime'], recv['MsgType'],
+                                 recv['Content'])
             return echostr
-        
-        params = urllib.urlencode({'q':q, 'count':1})
+
+        params = urllib.urlencode({'q': q, 'count': 1})
         url = "https://api.douban.com/v2/book/search?" + params
         req = urllib2.urlopen(url)
         response_json = req.read()
@@ -85,16 +86,18 @@ class weixin:
             <ArticleCount>1</ArticleCount>
             <Articles>
             <item>
-            <Title><![CDATA[%s]]></Title> 
+            <Title><![CDATA[%s]]></Title>
             <Description><![CDATA[%s]]></Description>
             <PicUrl><![CDATA[%s]]></PicUrl>
             <Url><![CDATA[%s]]></Url>
             </item>
             </Articles>
             <FuncFlag>1</FuncFlag>
-            </xml> 
+            </xml>
         """
-        echostr = textTpl % (recv['FromUserName'], recv['ToUserName'], recv['CreateTime'], title, description, image, douban)
+        echostr = textTpl % (recv['FromUserName'], recv['ToUserName'],
+                             recv['CreateTime'], title, description,
+                             image, douban)
         return echostr
 
 

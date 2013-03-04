@@ -23,8 +23,6 @@ BASE_URL = 'http://www.simsimi.com/func/req?%s&lc=zh'
 def get_jsessionid(url):
     '''得到cookie'''
     cookie = cookielib.CookieJar()
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
-    response = opener.open(url)
     for item in cookie:
         if item.name == "JSESSIONID":
             HEADERS['Cookie'] = cookie
