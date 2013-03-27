@@ -39,9 +39,9 @@ class threadUrl(threading.Thread):
         self.queue = queue
 
     def run(self):
-        time.sleep(1)
         fails = 0
         while True:
+            time.sleep(1)
             if self.queue.empty():
                 break
             try:

@@ -20,6 +20,8 @@ sys.setdefaultencoding('utf-8')
 con = MySQLdb.connect(host='localhost', user='lastmayday',
                       passwd='411531', charset="utf8")
 con.ping(True)
+cur = con.cursor()
+con.select_db("tieba")
 
 BASE_URL = "http://tieba.baidu.com/f?kw=%BB%AA%D6%D0%BF%C6%BC%BC%B4%F3%D1%A7&tp=0&pn="
 queue = Queue()
@@ -39,8 +41,6 @@ class threadUrl(threading.Thread):
         self.queue = queue
 
     def run(self):
-        cur = con.cursor()
-        con.select_db('tieba')
         fails = 0
         while True:
             if self.queue.empty():
@@ -73,9 +73,8 @@ class threadUrl(threading.Thread):
                     cur.execute(sql)
                     con.commit()
                 print author
-            self.queue.task_done()
-            time.sleep(2)
-        cur.close()
+            self.queue.task_done()  
+            time.sleep(1)     
 
 
 def main():
