@@ -16,3 +16,4 @@ HUST-WIRELESS登录
 
 ##findword.py
 在指定目录及其子目录下的文件中查找关键词
+_发现不用重复造轮子了_ **ack-grep**
