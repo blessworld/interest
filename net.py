@@ -6,13 +6,17 @@ import cookielib
 from base64 import b64encode
 from socket import socket, SOCK_DGRAM, AF_INET
 from bs4 import BeautifulSoup
+import sys
 
 '''
 华中科技大学校园网无线网脚本
 '''
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 username = 'dq096283'
-password = '******'
+password = '411531'
 
 HOST = '192.168.50.2'
 ROOT_URL = 'http://192.168.50.2:8080/portal/hust/desk/'
@@ -67,14 +71,18 @@ def login(username, password, jsessionid, ip):
     soup = BeautifulSoup(response)
 
     online_info = soup.find_all('input')
+    #print online_info
 
-    language = online_info[0]['value'].decode()
-    heartbeatCyc = online_info[1]['value'].decode()
-    heartBeatTimeOutMaxTime = online_info[2]['value'].decode()
-    userDevPort = online_info[3]['value'].decode()
-    userStatus = online_info[4]['value'].decode()
-    userip = ip
-    serialNo = online_info[6]['value'].decode()
+    try:
+        language = online_info[0]['value'].decode()
+        heartbeatCyc = online_info[1]['value'].decode()
+        heartBeatTimeOutMaxTime = online_info[2]['value'].decode()
+        userDevPort = online_info[3]['value'].decode()
+        userStatus = online_info[4]['value'].decode()
+        userip = ip
+        serialNo = online_info[6]['value'].decode()
+    except IndexError:
+        return False
 
     online_data = 'language={0}&heartbeatCyc={1}&heartBeatTimeoutMaxTime={2}\
                    &userDevPort={3}&userStatus={4}&userip={5}&serialNo={6}'
@@ -92,4 +100,7 @@ if __name__ == '__main__':
     jsessionid = get_jsessionid(INDEX_URL)
     add_cookie_in_headers(username, jsessionid)
     resp = login(username, password, jsessionid, ip)
-    print resp
+    if resp and '华中科技大学校园网服务' in resp:
+        print "上线成功"
+    else:
+        print "失败..."
